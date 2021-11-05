@@ -186,7 +186,7 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
     best_dev, best_test = [0, 0, 0], [0, 0, 0]
     if args.mt:
         teacher_model = model
-    
+
 
     for epoch in train_iterator:
         epoch_iterator = tqdm(train_dataloader, desc="Iteration", disable=args.local_rank not in [-1, 0])
@@ -231,7 +231,7 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
                 _lambda = args.mt_lambda
                 if args.mt_class != 'smart':
                     _lambda = args.mt_lambda * min(1,math.exp(-5*(1-update_step/args.mt_rampup)**2))
-                
+
                 if args.mt_loss_type == "embeds":
                     mt_loss = get_mt_loss(final_embeds, teacher_final_embeds.detach(), args.mt_class, _lambda)
                 else:
@@ -239,7 +239,7 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
 
             # Virtual adversarial training
             if args.vat:
-                
+
                 if args.model_type in ["roberta", "camembert", "xlmroberta"]:
                     word_embed = model.roberta.get_input_embeddings()
                 elif args.model_type in ["bert", "biobert"]:
@@ -253,13 +253,13 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
                     embeds = word_embed(batch[0])
                     vat_embeds = (embeds.data.detach() + embeds.data.new(embeds.size()).normal_(0, 1)*1e-5).detach()
                     vat_embeds.requires_grad_()
-                    
+
                     vat_inputs = {"inputs_embeds": vat_embeds, "attention_mask": batch[1], "labels": batch[3]}
                     if args.model_type != "distilbert":
                         inputs["token_type_ids"] = (
                             batch[2] if args.model_type in ["bert", "biobert", "xlnet"] else None
                         )  # XLM and RoBERTa don"t use segment_ids
-                    
+
                     vat_outputs = model(**vat_inputs)
                     vat_logits, vat_final_embeds = vat_outputs[1], vat_outputs[2]
 
@@ -267,7 +267,7 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
                         vat_loss = get_mt_loss(vat_final_embeds, final_embeds.detach(), args.mt_class, 1)
                     else:
                         vat_loss = get_mt_loss(vat_logits, logits.detach(), args.mt_class, 1)
-                    
+
                     vat_embeds.grad = opt_grad(vat_loss, vat_embeds, optimizer)[0]
                     norm = vat_embeds.grad.norm()
 
@@ -277,13 +277,13 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
                         adv_direct = vat_embeds.grad / (vat_embeds.grad.abs().max(-1, keepdim=True)[0]+1e-4)
                         vat_embeds = vat_embeds + args.vat_eps * adv_direct
                         vat_embeds = vat_embeds.detach()
-                        
+
                         vat_inputs = {"inputs_embeds": vat_embeds, "attention_mask": batch[1], "labels": batch[3]}
                         if args.model_type != "distilbert":
                             inputs["token_type_ids"] = (
                                 batch[2] if args.model_type in ["bert", "biobert", "xlnet"] else None
                             )  # XLM and RoBERTa don"t use segment_ids
-                        
+
                         vat_outputs = model(**vat_inputs)
                         vat_logits, vat_final_embeds = vat_outputs[1], vat_outputs[2]
                         if args.vat_loss_type == "embeds":
@@ -292,7 +292,7 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
                         else:
                             vat_loss = get_mt_loss(vat_logits, logits.detach(), args.mt_class, args.vat_lambda) \
                                     + get_mt_loss(logits, vat_logits.detach(), args.mt_class, args.vat_lambda)
-            
+
             loss = loss + args.mt_beta * mt_loss + args.vat_beta * vat_loss
             if args.n_gpu > 1:
                 loss = loss.mean()  # mean() to average on multi-gpu parallel training
@@ -324,12 +324,16 @@ def train(args, train_dataset, model, tokenizer, labels, pad_token_label_id):
                         logger.info("***** Entropy loss: %.4f, mean teacher loss : %.4f; vat loss: %.4f *****", \
                             loss - args.mt_beta * mt_loss - args.vat_beta * vat_loss, \
                             args.mt_beta * mt_loss, args.vat_beta * vat_loss)
-                        
+
                         results, _, best_dev, _ = evaluate(args, model, tokenizer, labels, pad_token_label_id, best_dev, mode="dev", prefix='dev [Step {}/{} | Epoch {}/{}]'.format(global_step, t_total, epoch, args.num_train_epochs), verbose=False)
+                        logger.info("***** DEV Evaluation | P: %.6f, R: %.6f; F: %.6f *****", \
+                            results["precision"], results["recall"], results["f1"])
                         for key, value in results.items():
                             tb_writer.add_scalar("eval_{}".format(key), value, global_step)
 
                         results, _, best_test, is_updated  = evaluate(args, model, tokenizer, labels, pad_token_label_id, best_test, mode="test", prefix='test [Step {}/{} | Epoch {}/{}]'.format(global_step, t_total, epoch, args.num_train_epochs), verbose=False)
+                        logger.info("***** TEST Evaluation | P: %.6f, R: %.6f; F: %.6f *****", \
+                            results["precision"], results["recall"], results["f1"])
                         for key, value in results.items():
                             tb_writer.add_scalar("test_{}".format(key), value, global_step)
 
@@ -625,7 +629,7 @@ def main():
         if args.load_weak:
             weak_dataset = load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode="weak", remove_labels=args.remove_labels_from_weak)
             train_dataset = torch.utils.data.ConcatDataset([train_dataset]*args.rep_train_against_weak + [weak_dataset,])
-            
+
         global_step, tr_loss, best_dev, best_test = train(args, train_dataset, model, tokenizer, labels, pad_token_label_id)
         logger.info(" global_step = %s, average loss = %s", global_step, tr_loss)
 
@@ -671,7 +675,7 @@ def main():
         tokenizer = tokenizer_class.from_pretrained(args.output_dir, do_lower_case=args.do_lower_case)
         model = model_class.from_pretrained(args.output_dir)
         model.to(args.device)
-        
+
         if not best_test:
             best_test = [0, 0, 0]
         result, predictions, _, _ = evaluate(args, model, tokenizer, labels, pad_token_label_id, best=best_test, mode="test")

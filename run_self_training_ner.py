@@ -220,7 +220,7 @@ def train(args, train_dataset, model_class, config, tokenizer, labels, pad_token
                 if delta % args.self_training_period == 0:
                     self_training_teacher_model = copy.deepcopy(model)
                     self_training_teacher_model.eval()
-                    
+
                     # Re-initialize the student model once a new teacher is obtained
                     if args.self_training_reinit:
                         model, optimizer, scheduler = initialize(args, model_class, config, t_total, epoch)
@@ -245,7 +245,7 @@ def train(args, train_dataset, model_class, config, tokenizer, labels, pad_token
             if args.model_type != "distilbert":
                 inputs["token_type_ids"] = (
                     batch[2] if args.model_type in ["bert", "xlnet"] else None
-                ) 
+                )
 
             outputs = model(**inputs)
             loss, logits, final_embeds = outputs[0], outputs[1], outputs[2] # model outputs are always tuple in pytorch-transformers (see doc)
@@ -334,7 +334,7 @@ def train(args, train_dataset, model_class, config, tokenizer, labels, pad_token
                                     + get_mt_loss(logits, vat_logits.detach(), args.mt_class, args.vat_lambda)
 
             loss = loss + args.mt_beta * mt_loss + args.vat_beta * vat_loss
-            
+
             if args.n_gpu > 1:
                 loss = loss.mean()  # mean() to average on multi-gpu parallel training
             if args.gradient_accumulation_steps > 1:
@@ -367,10 +367,14 @@ def train(args, train_dataset, model_class, config, tokenizer, labels, pad_token
                             args.mt_beta * mt_loss, args.vat_beta * vat_loss)
 
                         results, _, best_dev, _ = evaluate(args, model, tokenizer, labels, pad_token_label_id, best_dev, mode="dev", prefix='dev [Step {}/{} | Epoch {}/{}]'.format(global_step, t_total, epoch, args.num_train_epochs), verbose=False)
+                        logger.info("***** DEV Evaluation | P: %.6f, R: %.6f; F: %.6f *****", \
+                            results["precision"], results["recall"], results["f1"])
                         for key, value in results.items():
                             tb_writer.add_scalar("eval_{}".format(key), value, global_step)
 
                         results, _, best_test, is_updated  = evaluate(args, model, tokenizer, labels, pad_token_label_id, best_test, mode="test", prefix='test [Step {}/{} | Epoch {}/{}]'.format(global_step, t_total, epoch, args.num_train_epochs), verbose=False)
+                        logger.info("***** TEST Evaluation | P: %.6f, R: %.6f; F: %.6f *****", \
+                            results["precision"], results["recall"], results["f1"])
                         for key, value in results.items():
                             tb_writer.add_scalar("test_{}".format(key), value, global_step)
 
@@ -667,7 +671,7 @@ def main():
         if args.load_weak:
             weak_dataset = load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode="weak", remove_labels=args.remove_labels_from_weak)
             train_dataset = torch.utils.data.ConcatDataset([train_dataset]*args.rep_train_against_weak + [weak_dataset,])
-            
+
         model, global_step, tr_loss, best_dev, best_test = train(args, train_dataset, model_class, config, tokenizer, labels, pad_token_label_id)
         logger.info(" global_step = %s, average loss = %s", global_step, tr_loss)
 

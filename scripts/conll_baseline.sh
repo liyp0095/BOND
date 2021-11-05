@@ -2,15 +2,18 @@
 
 if [[ $# -ne 1 ]]; then
   GPUID=0
+  DATASET=CoNLL2003_Dict
 else
   GPUID=$1
+  DATASET=$2
 fi
 
 echo "Run on GPU $GPUID"
 
 # data
 PROJECT_ROOT=$(dirname "$(readlink -f "$0")")/..
-DATA_ROOT=$PROJECT_ROOT/dataset/conll03_distant/
+# DATA_ROOT=$PROJECT_ROOT/dataset/conll03_distant/
+DATA_ROOT=$PROJECT_ROOT/dataset/"$DATASET"/
 
 # model
 MODEL_TYPE=roberta

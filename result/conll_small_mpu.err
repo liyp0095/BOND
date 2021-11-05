@@ -1,0 +1,13 @@
+rsync: failed to open exclude file /work/LAS/qli-lab/YuepeiLi/bond/BOND/scripts/../.gitignore: No such file or directory (2)
+rsync error: error in file IO (code 11) at exclude.c(1207) [client=3.1.2]
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 58, in <module>
+    from eval import evaluate
+  File "/work/LAS/qli-lab/YuepeiLi/bond/BOND/eval.py", line 25, in <module>
+    from flashtool import Logger
+  File "/work/LAS/qli-lab/YuepeiLi/bond-py/lib/python3.7/site-packages/flashtool/__init__.py", line 2, in <module>
+    from .trackjob import trackpid
+  File "/work/LAS/qli-lab/YuepeiLi/bond-py/lib/python3.7/site-packages/flashtool/trackjob.py", line 1, in <module>
+    import psutil
+ModuleNotFoundError: No module named 'psutil'

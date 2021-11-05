@@ -1,0 +1,60 @@
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)
+scripts/bc5_baseline.sh: line 52: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+Traceback (most recent call last):
+  File "run_ner.py", line 57, in <module>
+    from modeling_bert import BertForTokenClassification_v2
+ImportError: cannot import name 'BertForTokenClassification_v2' from 'modeling_bert' (/work/LAS/qli-lab/YuepeiLi/bond/BOND/modeling_bert.py)

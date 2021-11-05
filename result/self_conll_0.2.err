@@ -1,0 +1,57 @@
+scripts/conll_self_training.sh: line 51: rsync: command not found
+To use data.metrics please install scikit-learn. See https://scikit-learn.org/stable/index.html
+11/01/2021 02:05:44 - WARNING - __main__ -   Process rank: -1, device: cuda, n_gpu: 1, distributed training: False, 16-bits training: False
+11/01/2021 02:05:45 - INFO - transformers.configuration_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /work/LAS/qli-lab/YuepeiLi/bond/BOND/scripts/../pretrained_model/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
+11/01/2021 02:05:45 - INFO - transformers.configuration_utils -   Model config {
+  "architectures": [
+    "RobertaForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 0,
+  "eos_token_id": 2,
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  },
+  "layer_norm_eps": 1e-05,
+  "max_position_embeddings": 514,
+  "model_type": "roberta",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "num_labels": 9,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "output_past": true,
+  "pad_token_id": 1,
+  "pruned_heads": {},
+  "torchscript": false,
+  "type_vocab_size": 1,
+  "use_bfloat16": false,
+  "vocab_size": 50265
+}
+
+11/01/2021 02:05:45 - INFO - transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-vocab.json from cache at /work/LAS/qli-lab/YuepeiLi/bond/BOND/scripts/../pretrained_model/d0c5776499adc1ded22493fae699da0971c1ee4c2587111707a4d177d20257a2.ef00af9e673c7160b4d41cfda1f48c5f4cba57d5142754525572a846a1ab1b9b
+11/01/2021 02:05:45 - INFO - transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-merges.txt from cache at /work/LAS/qli-lab/YuepeiLi/bond/BOND/scripts/../pretrained_model/b35e7cd126cd4229a746b5d5c29a749e8e84438b14bcdb575950584fe33207e8.70bec105b4158ed9a1747fea67a43f5dee97855c64d62b6ec3742f4cfdb5feda
+11/01/2021 02:05:45 - INFO - __main__ -   Training/evaluation parameters Namespace(adam_beta1=0.9, adam_beta2=0.98, adam_epsilon=1e-08, cache_dir='/work/LAS/qli-lab/YuepeiLi/bond/BOND/scripts/../pretrained_model', config_name='', data_dir='/work/LAS/qli-lab/YuepeiLi/bond/BOND/scripts/../dataset/CoNLL2003_Dict_0.2/', device=device(type='cuda'), do_eval=True, do_lower_case=False, do_predict=True, do_train=True, eval_all_checkpoints=False, evaluate_during_training=True, fp16=False, fp16_opt_level='O1', gradient_accumulation_steps=1, learning_rate=1e-05, load_weak=False, local_rank=-1, logging_steps=100, max_grad_norm=1.0, max_seq_length=128, max_steps=-1, model_name_or_path='roberta-base', model_type='roberta', mt=0, mt_alpha1=0.99, mt_alpha2=0.995, mt_avg='exponential', mt_beta=10, mt_class='kl', mt_lambda=1, mt_loss_type='logits', mt_rampup=300, mt_updatefreq=1, n_gpu=1, no_cuda=False, num_train_epochs=50.0, output_dir='/work/LAS/qli-lab/YuepeiLi/bond/BOND/scripts/../outputs/conll03/self_training/roberta_reinit0_begin900_period450_soft_hp5.9_50_1e-5/', overwrite_cache=False, overwrite_output_dir=True, per_gpu_eval_batch_size=32, per_gpu_train_batch_size=16, remove_labels_from_weak=False, rep_train_against_weak=1, save_steps=100000, seed=0, self_training_begin_step=900, self_training_ensemble_label=0, self_training_hp_label=5.9, self_training_label_mode='soft', self_training_period=450, self_training_reinit=0, server_ip='', server_port='', tokenizer_name='', vat=0, vat_beta=1, vat_eps=0.001, vat_lambda=1, vat_loss_type='logits', warmup_steps=200, weight_decay=0.0001)
+11/01/2021 02:05:45 - INFO - data_utils -   Creating features from dataset file at /work/LAS/qli-lab/YuepeiLi/bond/BOND/scripts/../dataset/CoNLL2003_Dict_0.2/
+Traceback (most recent call last):
+  File "run_self_training_ner.py", line 744, in <module>
+    main()
+  File "run_self_training_ner.py", line 669, in main
+    train_dataset = load_and_cache_examples(args, tokenizer, labels, pad_token_label_id, mode="train")
+  File "/work/LAS/qli-lab/YuepeiLi/bond/BOND/data_utils.py", line 239, in load_and_cache_examples
+    examples = read_examples_from_file(args.data_dir, mode)
+  File "/work/LAS/qli-lab/YuepeiLi/bond/BOND/data_utils.py", line 61, in read_examples_from_file
+    with open(file_path, 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/work/LAS/qli-lab/YuepeiLi/bond/BOND/scripts/../dataset/CoNLL2003_Dict_0.2/train.json'
